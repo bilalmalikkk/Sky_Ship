@@ -9,7 +9,6 @@ UPDATE Users
 SET password = '$2a$10$g5lJfaZ1gM/u0qlQKAVXyO49oRZRe7AiVCXUWpBA6jyEvcnPV2p7m'
 WHERE username = 'admin' AND email = 'admin@skyshiplink.com';
 GO
-
 -- Verify the update
 SELECT 
     username,

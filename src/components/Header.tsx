@@ -2,6 +2,7 @@
 import { Button } from "@/components/ui/button";
 import { Ship, Menu } from "lucide-react";
 import { useState } from "react";
+import { Link } from "react-router-dom";
 
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -13,6 +14,7 @@ const Header = () => {
     { name: "Tracking", href: "#tracking" },
     { name: "Contact", href: "#contact" },
     { name: "Admin Portal", href: "/admin" },
+    { name: "Test", href: "/test" },
   ];
 
   return (
@@ -33,13 +35,23 @@ const Header = () => {
           {/* Desktop Navigation */}
           <nav className="hidden md:flex items-center gap-8">
             {navItems.map((item) => (
-              <a
-                key={item.name}
-                href={item.href}
-                className="text-foreground hover:text-freight transition-colors duration-300 font-medium"
-              >
-                {item.name}
-              </a>
+              item.href.startsWith('#') ? (
+                <a
+                  key={item.name}
+                  href={item.href}
+                  className="text-foreground hover:text-freight transition-colors duration-300 font-medium"
+                >
+                  {item.name}
+                </a>
+              ) : (
+                <Link
+                  key={item.name}
+                  to={item.href}
+                  className="text-foreground hover:text-freight transition-colors duration-300 font-medium"
+                >
+                  {item.name}
+                </Link>
+              )
             ))}
           </nav>
 
@@ -67,14 +79,25 @@ const Header = () => {
           <div className="md:hidden mt-4 py-4 border-t border-border animate-slide-up">
             <nav className="flex flex-col gap-4">
               {navItems.map((item) => (
-                <a
-                  key={item.name}
-                  href={item.href}
-                  className="text-foreground hover:text-freight transition-colors duration-300 font-medium py-2"
-                  onClick={() => setIsMenuOpen(false)}
-                >
-                  {item.name}
-                </a>
+                item.href.startsWith('#') ? (
+                  <a
+                    key={item.name}
+                    href={item.href}
+                    className="text-foreground hover:text-freight transition-colors duration-300 font-medium py-2"
+                    onClick={() => setIsMenuOpen(false)}
+                  >
+                    {item.name}
+                  </a>
+                ) : (
+                  <Link
+                    key={item.name}
+                    to={item.href}
+                    className="text-foreground hover:text-freight transition-colors duration-300 font-medium py-2"
+                    onClick={() => setIsMenuOpen(false)}
+                  >
+                    {item.name}
+                  </Link>
+                )
               ))}
               <div className="flex flex-col gap-3 mt-4">
                 <Button variant="outline" className="btn-secondary w-full">

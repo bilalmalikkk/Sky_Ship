@@ -79,23 +79,30 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
 
   const login = async (email: string, password: string, onSuccess?: () => void): Promise<boolean> => {
     try {
+      console.log('AuthContext: Attempting login for:', email);
       const response = await apiService.login(email, password);
+      console.log('AuthContext: Login response:', response);
+      
       if (response.data) {
         const authData = response.data as AuthResponse;
         const { token: newToken, ...userData } = authData;
+        console.log('AuthContext: Setting token and user data');
         apiService.setToken(newToken);
         setToken(newToken);
         setUser(userData);
         
         // Call success callback if provided
         if (onSuccess) {
+          console.log('AuthContext: Calling success callback');
           onSuccess();
         }
         
         return true;
       }
+      console.log('AuthContext: No data in response');
       return false;
     } catch (error) {
+      console.error('AuthContext: Login error:', error);
       return false;
     }
   };

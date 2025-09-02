@@ -21,17 +21,22 @@ const Login: React.FC = () => {
     setError('');
     setLoading(true);
 
+    console.log('Login attempt for:', email);
+
     try {
       const success = await login(email, password, () => {
         // Navigation callback - redirect based on user role
         // This will be called after successful login
+        console.log('Login successful, navigating to /admin');
         navigate('/admin');
       });
       
       if (!success) {
+        console.log('Login failed - invalid credentials');
         setError('Invalid email or password');
       }
     } catch (err) {
+      console.error('Login error:', err);
       setError('An error occurred during login');
     } finally {
       setLoading(false);

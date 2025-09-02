@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useAuth } from '../contexts/AuthContext';
 import { useNavigate } from 'react-router-dom';
-import Login from '../components/Login';
+import Login from '../components/LoginSimple';
 import Dashboard from '../components/admin/Dashboard';
 import CustomerManagement from '../components/admin/CustomerManagement';
 import ShipmentManagement from '../components/admin/ShipmentManagement';
@@ -13,13 +13,17 @@ const Admin: React.FC = () => {
   const navigate = useNavigate();
   const [activeTab, setActiveTab] = useState('dashboard');
 
+  // Debug logging
+  console.log('Admin Component - Auth State:', { user, isAuthenticated, loading });
+
   useEffect(() => {
-    if (!loading && !isAuthenticated) {
-      navigate('/admin');
-    }
+    console.log('Admin useEffect - checking auth:', { loading, isAuthenticated });
+    // Don't redirect - let the component render the login form
+    // The login form will be shown when !isAuthenticated
   }, [isAuthenticated, loading, navigate]);
 
   if (loading) {
+    console.log('Admin: Showing loading spinner');
     return (
       <div className="min-h-screen flex items-center justify-center">
         <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-gray-900"></div>
@@ -28,8 +32,11 @@ const Admin: React.FC = () => {
   }
 
   if (!isAuthenticated) {
+    console.log('Admin: User not authenticated, showing Login component');
     return <Login />;
   }
+
+  console.log('Admin: User authenticated, showing dashboard');
 
   const handleLogout = () => {
     logout(() => {
