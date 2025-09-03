@@ -1,62 +1,96 @@
-import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
-import apiService from '../services/api';
+import { useState } from "react";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import Header from "@/components/Header";
+import Footer from "@/components/Footer";
 
-const Test: React.FC = () => {
-  const [apiStatus, setApiStatus] = useState<string>('');
+const Test = () => {
+  const [localStorageData, setLocalStorageData] = useState<string>("");
 
-  const testAPI = async () => {
-    try {
-      setApiStatus('Testing API...');
-      const response = await fetch('http://localhost:5000/api/auth/login', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email: 'test@test.com', password: 'test' })
-      });
-      
-      if (response.ok) {
-        setApiStatus('✅ Backend is running and accessible');
-      } else {
-        setApiStatus(`⚠️ Backend responded with status: ${response.status}`);
-      }
-    } catch (error) {
-      setApiStatus(`❌ Backend connection failed: ${error}`);
-    }
+  const checkLocalStorage = () => {
+    const registeredUsers = localStorage.getItem("registeredUsers");
+    const currentUser = localStorage.getItem("user");
+    
+    setLocalStorageData(JSON.stringify({
+      registeredUsers: registeredUsers ? JSON.parse(registeredUsers) : [],
+      currentUser: currentUser ? JSON.parse(currentUser) : null
+    }, null, 2));
+  };
+
+  const clearLocalStorage = () => {
+    localStorage.removeItem("registeredUsers");
+    localStorage.removeItem("user");
+    setLocalStorageData("");
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-50">
-      <div className="text-center">
-        <h1 className="text-4xl font-bold text-gray-900 mb-4">Test Page</h1>
-        <p className="text-gray-600 mb-8">This is a test page to verify routing works</p>
-        
-        <div className="mb-8">
-          <button 
-            onClick={testAPI}
-            className="bg-purple-600 hover:bg-purple-700 text-white px-6 py-3 rounded-md font-medium mb-4"
-          >
-            Test Backend Connection
-          </button>
-          {apiStatus && (
-            <p className="text-sm text-gray-700">{apiStatus}</p>
-          )}
+    <div className="min-h-screen">
+      <Header />
+      <main className="pt-20">
+        <div className="container mx-auto px-4 py-8">
+          <h1 className="text-3xl font-bold text-gray-900 mb-8">Test Page</h1>
+          
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <Card>
+              <CardHeader>
+                <CardTitle>LocalStorage Test</CardTitle>
+                <CardDescription>Check what's stored in localStorage</CardDescription>
+              </CardHeader>
+              <CardContent className="space-y-4">
+                <Button onClick={checkLocalStorage}>Check LocalStorage</Button>
+                <Button onClick={clearLocalStorage} variant="outline">Clear LocalStorage</Button>
+                
+                {localStorageData && (
+                  <div className="mt-4">
+                    <h3 className="font-medium mb-2">LocalStorage Data:</h3>
+                    <pre className="bg-gray-100 p-4 rounded text-xs overflow-auto">
+                      {localStorageData}
+                    </pre>
+                  </div>
+                )}
+              </CardContent>
+            </Card>
+
+            <Card>
+              <CardHeader>
+                <CardTitle>Test Instructions</CardTitle>
+                <CardDescription>How to test the registration and login flow</CardDescription>
+              </CardHeader>
+              <CardContent className="space-y-4">
+                <div>
+                  <h3 className="font-medium mb-2">1. Test Registration:</h3>
+                  <ol className="list-decimal list-inside text-sm space-y-1">
+                    <li>Go to <code className="bg-gray-100 px-1 rounded">/signup</code></li>
+                    <li>Fill out the registration form</li>
+                    <li>Check console for registration logs</li>
+                    <li>Use "Check LocalStorage" button above</li>
+                  </ol>
+                </div>
+                
+                <div>
+                  <h3 className="font-medium mb-2">2. Test Login:</h3>
+                  <ol className="list-decimal list-inside text-sm space-y-1">
+                    <li>Go to <code className="bg-gray-100 px-1 rounded">/login</code></li>
+                    <li>Use the credentials you just registered</li>
+                    <li>Check console for login logs</li>
+                    <li>Should redirect to home page if successful</li>
+                  </ol>
+                </div>
+
+                <div>
+                  <h3 className="font-medium mb-2">3. Demo Accounts:</h3>
+                  <ul className="list-disc list-inside text-sm space-y-1">
+                    <li><strong>Admin:</strong> admin@skyship.com / admin123</li>
+                    <li><strong>Moderator:</strong> moderator@skyship.com / mod123</li>
+                    <li><strong>User:</strong> user@skyship.com / user123</li>
+                  </ul>
+                </div>
+              </CardContent>
+            </Card>
+          </div>
         </div>
-        
-        <div className="space-x-4">
-          <Link 
-            to="/" 
-            className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-md font-medium"
-          >
-            Go Home
-          </Link>
-          <Link 
-            to="/admin" 
-            className="bg-green-600 hover:bg-green-700 text-white px-6 py-3 rounded-md font-medium"
-          >
-            Go Admin
-          </Link>
-        </div>
-      </div>
+      </main>
+      <Footer />
     </div>
   );
 };

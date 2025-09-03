@@ -1,6 +1,6 @@
 
 import { Button } from "@/components/ui/button";
-import { ArrowRight, Globe, Clock, Shield } from "lucide-react";
+import { ArrowRight, Globe, Clock, Shield, MessageCircle } from "lucide-react";
 
 const Hero = () => {
   const features = [
@@ -8,6 +8,13 @@ const Hero = () => {
     { icon: Clock, text: "24/7 Tracking" },
     { icon: Shield, text: "Secure Transport" }
   ];
+
+  const handleWhatsAppClick = () => {
+    const phoneNumber = "+1234567890"; // Replace with actual WhatsApp number
+    const message = "Hi! I'm interested in your freight services. Can you help me get a quote?";
+    const whatsappUrl = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`;
+    window.open(whatsappUrl, '_blank');
+  };
 
   return (
     <section id="home" className="relative min-h-screen flex items-center bg-gradient-hero overflow-hidden">
@@ -47,18 +54,32 @@ const Hero = () => {
               })}
             </div>
 
-            {/* CTA Buttons */}
-            <div className="flex flex-col sm:flex-row gap-4">
-              <Button size="lg" className="bg-white text-freight hover:bg-white/90 text-lg px-8 py-6 group">
-                Get Free Quote
-                <ArrowRight className="w-5 h-5 ml-2 group-hover:translate-x-1 transition-transform" />
-              </Button>
+            {/* Enhanced CTA Buttons */}
+            <div className="space-y-4">
+              <div className="flex flex-col sm:flex-row gap-4">
+                <Button 
+                  size="lg" 
+                  className="bg-accent hover:bg-accent/90 text-white text-lg px-8 py-6 group shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-300"
+                >
+                  Request a Quote Now
+                  <ArrowRight className="w-5 h-5 ml-2 group-hover:translate-x-1 transition-transform" />
+                </Button>
+                <Button 
+                  size="lg" 
+                  className="bg-white text-freight hover:bg-white/90 text-lg px-8 py-6 shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-300"
+                >
+                  Track Shipment
+                </Button>
+              </div>
+              
+              {/* WhatsApp Quick Contact Button */}
               <Button 
+                onClick={handleWhatsAppClick}
                 size="lg" 
-                variant="outline" 
-                className="border-white text-white hover:bg-white hover:text-freight text-lg px-8 py-6"
+                className="bg-green-600 hover:bg-green-700 text-white text-lg px-8 py-6 w-full sm:w-auto shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-300"
               >
-                Track Shipment
+                <MessageCircle className="w-5 h-5 mr-2" />
+                Chat on WhatsApp
               </Button>
             </div>
           </div>

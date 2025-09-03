@@ -28,6 +28,14 @@ const Footer = () => {
       "Help Center",
       "Contact Support",
       "Emergency Line"
+    ],
+    legal: [
+      "Privacy Policy",
+      "Terms of Service",
+      "Cookie Policy",
+      "GDPR Compliance",
+      "Data Protection",
+      "Legal Notice"
     ]
   };
 
@@ -41,7 +49,7 @@ const Footer = () => {
   return (
     <footer className="bg-freight text-white">
       <div className="container mx-auto px-4 py-16">
-        <div className="grid lg:grid-cols-4 md:grid-cols-2 gap-8">
+        <div className="grid lg:grid-cols-5 md:grid-cols-2 gap-8">
           {/* Company Info */}
           <div className="lg:col-span-1 space-y-6">
             <div className="flex items-center gap-3">
@@ -133,6 +141,23 @@ const Footer = () => {
                 </li>
               ))}
             </ul>
+          </div>
+
+          {/* Legal */}
+          <div className="space-y-6">
+            <h3 className="text-lg font-bold">Legal</h3>
+            <ul className="space-y-3">
+              {footerLinks.legal.map((link, index) => (
+                <li key={index}>
+                  <a 
+                    href={link === "Privacy Policy" ? "/privacy" : "#"} 
+                    className="text-white/80 hover:text-accent transition-colors duration-300"
+                  >
+                    {link}
+                  </a>
+                </li>
+              ))}
+            </ul>
 
             {/* Newsletter */}
             <div className="mt-8">
@@ -161,13 +186,13 @@ const Footer = () => {
               © {currentYear} SkyShip Logistics. All rights reserved.
             </p>
             <div className="flex gap-6">
-              <a href="#" className="text-white/80 hover:text-accent text-sm transition-colors duration-300">
+              <a href="/privacy" className="text-white/80 hover:text-accent text-sm transition-colors duration-300">
                 Privacy Policy
               </a>
               <a href="#" className="text-white/80 hover:text-accent text-sm transition-colors duration-300">
                 Terms of Service
               </a>
-              <a href="#" className="text-white/80 hover:text-accent text-sm transition-colors duration-300">
+              <a href="/privacy" className="text-white/80 hover:text-accent text-sm transition-colors duration-300">
                 Cookie Policy
               </a>
             </div>
