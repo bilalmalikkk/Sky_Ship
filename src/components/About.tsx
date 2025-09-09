@@ -18,21 +18,21 @@ const About = () => {
           <div className="space-y-8 animate-slide-up">
             <div>
               <h2 className="section-title text-freight mb-6">
-                Leading the Future of 
-                <span className="text-gradient block">Global Logistics</span>
+                Meet the Founder
+                <span className="text-gradient block">and Skyship's Mission</span>
               </h2>
               <div className="space-y-6 text-lg text-muted-foreground leading-relaxed">
                 <p>
-                  Since 1998, SkyShip Logistics has been at the forefront of international freight forwarding, 
-                  connecting businesses across continents with reliable, efficient logistics solutions.
+                  Skyship was founded by <span className="font-semibold text-foreground">Ousmane Mboup</span>, CEO and Founder, in Dakar, Senegal. 
+                  We exist to make shipping simple, transparent, and reliable for businesses and individuals across Africa and beyond.
                 </p>
                 <p>
-                  Our commitment to innovation and customer excellence has made us a trusted partner for 
-                  companies ranging from small enterprises to Fortune 500 corporations.
+                  From Dakar to the world, our mission is to bridge distances, remove friction, and provide 
+                  dependable logistics solutions that help our customers grow with confidence.
                 </p>
                 <p>
-                  With a global network spanning over 50 countries and strategic partnerships with leading 
-                  carriers worldwide, we ensure your cargo reaches its destination safely, on time, every time.
+                  Grounded in local expertise and supported by a global partner network, Skyship delivers 
+                  end-to-end freight services with clear communication, fair pricing, and on-time delivery.
                 </p>
               </div>
             </div>
@@ -43,7 +43,7 @@ const About = () => {
                 <CardContent className="p-0">
                   <h3 className="text-xl font-bold text-freight mb-3">Our Mission</h3>
                   <p className="text-muted-foreground">
-                    To simplify global trade by providing innovative, reliable, and cost-effective logistics solutions.
+                    Empower commerce across Africa and beyond by delivering trustworthy, transparent shipping from Dakar to the world.
                   </p>
                 </CardContent>
               </Card>

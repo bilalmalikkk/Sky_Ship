@@ -1,4 +1,5 @@
 import { createContext, useContext, useState, useEffect, ReactNode } from "react";
+import apiService from "@/services/api";
 
 // Define user roles and their permissions
 export enum UserRole {
@@ -115,57 +116,83 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
 
   const login = async (email: string, password: string): Promise<boolean> => {
     try {
-      // In a real app, this would be an API call
-      // For demo purposes, we'll simulate different user roles
-      let userData: User;
-      
-      if (email === "admin@skyship.com" && password === "admin123") {
-        userData = {
-          id: "1",
-          email: "admin@skyship.com",
-          name: "Administrator",
-          firstName: "Admin",
-          lastName: "User",
-          role: UserRole.ADMIN,
-          permissions: ROLE_PERMISSIONS[UserRole.ADMIN],
+      // Try real backend first
+      const response = await apiService.login(email, password);
+      if (response.data) {
+        const { id, email: respEmail, username, role, token } = response.data as any;
+
+        // Map backend roles to frontend roles
+        const mappedRole: UserRole =
+          role === "admin" ? UserRole.ADMIN : role === "manager" ? UserRole.MODERATOR : UserRole.USER;
+
+        // Persist token for subsequent API calls
+        if (token) {
+          apiService.setToken(token);
+          localStorage.setItem("token", token);
+        }
+
+        const userData: User = {
+          id: String(id),
+          email: respEmail,
+          name: username || respEmail,
+          role: mappedRole,
+          permissions: ROLE_PERMISSIONS[mappedRole],
           lastLogin: new Date(),
-          ipAddress: "192.168.1.1", // In real app, get from request
-        };
-      } else if (email === "moderator@skyship.com" && password === "mod123") {
-        userData = {
-          id: "2",
-          email: "moderator@skyship.com",
-          name: "Content Moderator",
-          firstName: "Content",
-          lastName: "Moderator",
-          role: UserRole.MODERATOR,
-          permissions: ROLE_PERMISSIONS[UserRole.MODERATOR],
-          lastLogin: new Date(),
-          ipAddress: "192.168.1.2",
-        };
-      } else if (email === "user@skyship.com" && password === "user123") {
-        userData = {
-          id: "3",
-          email: "user@skyship.com",
-          name: "Regular User",
-          firstName: "Regular",
-          lastName: "User",
-          role: UserRole.USER,
-          permissions: ROLE_PERMISSIONS[UserRole.USER],
-          lastLogin: new Date(),
-          ipAddress: "192.168.1.3",
-        };
-      } else {
-        // Check registered users from localStorage
-        const registeredUsers = JSON.parse(localStorage.getItem("registeredUsers") || "[]");
-        console.log("Checking registered users:", registeredUsers);
-        const registeredUser = registeredUsers.find((u: any) => u.email === email);
-        console.log("Found registered user:", registeredUser);
-        
-        if (registeredUser) {
-          // In a real app, you would hash and compare passwords
-          // For demo purposes, we'll use a simple check
-          if (registeredUser.password === password) {
+          ipAddress: "0.0.0.0",
+        } as User;
+
+        setUser(userData);
+        setIsAuthenticated(true);
+        localStorage.setItem("user", JSON.stringify(userData));
+        return true;
+      }
+
+      // If backend failed (no data), fall back to demo/local login
+      throw new Error(response.message || "Backend login failed");
+    } catch (err) {
+      // Fallback demo logic (kept for offline/demo use)
+      try {
+        let userData: User | null = null;
+        if (email === "admin@skyship.com" && password === "admin123") {
+          userData = {
+            id: "1",
+            email: "admin@skyship.com",
+            name: "Administrator",
+            firstName: "Admin",
+            lastName: "User",
+            role: UserRole.ADMIN,
+            permissions: ROLE_PERMISSIONS[UserRole.ADMIN],
+            lastLogin: new Date(),
+            ipAddress: "192.168.1.1",
+          };
+        } else if (email === "moderator@skyship.com" && password === "mod123") {
+          userData = {
+            id: "2",
+            email: "moderator@skyship.com",
+            name: "Content Moderator",
+            firstName: "Content",
+            lastName: "Moderator",
+            role: UserRole.MODERATOR,
+            permissions: ROLE_PERMISSIONS[UserRole.MODERATOR],
+            lastLogin: new Date(),
+            ipAddress: "192.168.1.2",
+          };
+        } else if (email === "user@skyship.com" && password === "user123") {
+          userData = {
+            id: "3",
+            email: "user@skyship.com",
+            name: "Regular User",
+            firstName: "Regular",
+            lastName: "User",
+            role: UserRole.USER,
+            permissions: ROLE_PERMISSIONS[UserRole.USER],
+            lastLogin: new Date(),
+            ipAddress: "192.168.1.3",
+          };
+        } else {
+          const registeredUsers = JSON.parse(localStorage.getItem("registeredUsers") || "[]");
+          const registeredUser = registeredUsers.find((u: any) => u.email === email);
+          if (registeredUser && registeredUser.password === password) {
             userData = {
               id: registeredUser.id,
               email: registeredUser.email,
@@ -176,27 +203,22 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
               role: UserRole.USER,
               permissions: ROLE_PERMISSIONS[UserRole.USER],
               lastLogin: new Date(),
-              ipAddress: "192.168.1.100", // In real app, get from request
+              ipAddress: "192.168.1.100",
             };
-          } else {
-            throw new Error("Invalid credentials");
           }
-        } else {
-          throw new Error("Invalid credentials");
         }
-      }
 
-      // Log login attempt for security
-      console.log(`Login attempt: ${email} from IP: ${userData.ipAddress} at ${new Date().toISOString()}`);
-      
-      setUser(userData);
-      setIsAuthenticated(true);
-      localStorage.setItem("user", JSON.stringify(userData));
-      
-      return true;
-    } catch (error) {
-      console.error("Login failed:", error);
-      return false;
+        if (userData) {
+          setUser(userData);
+          setIsAuthenticated(true);
+          localStorage.setItem("user", JSON.stringify(userData));
+          return true;
+        }
+        return false;
+      } catch (fallbackError) {
+        console.error("Login failed (both backend and demo):", fallbackError);
+        return false;
+      }
     }
   };
 

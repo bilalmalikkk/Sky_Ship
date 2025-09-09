@@ -5,7 +5,7 @@ USE sky_ship_link;
 GO
 
 -- Delete existing admin user if exists
-DELETE FROM Users WHERE username = 'admin' OR email = 'admin@skyshiplink.com';
+DELETE FROM Users WHERE username = 'admin' OR email = 'oussoubb45@gmail.com' OR email = 'admin@skyshiplink.com';
 GO
 
 -- Create new admin user with password 'admin123'
@@ -13,7 +13,7 @@ GO
 INSERT INTO Users (username, email, password, role, firstName, lastName, isActive)
 VALUES (
     'admin', 
-    'admin@skyshiplink.com', 
+    'oussoubb45@gmail.com', 
     '$2a$10$rQZ9K8mN2pL1vX3yB6cF7dE8gH9iJ0kL1mN2oP3qR4sT5uV6wX7yZ8', 
     'admin', 
     'Admin', 
@@ -37,5 +37,5 @@ GO
 
 PRINT 'New admin user created successfully!';
 PRINT 'Login credentials:';
-PRINT 'Email: admin@skyshiplink.com';
+PRINT 'Email: oussoubb45@gmail.com';
 PRINT 'Password: admin123';

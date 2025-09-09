@@ -3,7 +3,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { MapPin, Phone, Mail, Clock } from "lucide-react";
+import { MapPin, Phone, Mail, Clock, User } from "lucide-react";
 import { useState } from "react";
 
 const Contact = () => {
@@ -24,19 +24,24 @@ const Contact = () => {
 
   const contactInfo = [
     {
+      icon: User,
+      title: "Founder",
+      details: ["Ousmane Mboup", "CEO and Founder"]
+    },
+    {
       icon: MapPin,
       title: "Head Office",
-      details: ["123 Logistics Avenue", "Port City, PC 12345", "United States"]
+      details: ["Dakar, Senegal"]
     },
     {
       icon: Phone,
-      title: "Phone Numbers",
-      details: ["+1 (555) 123-4567", "+1 (800) SKYSHIP", "24/7 Emergency Line"]
+      title: "Phone",
+      details: ["+221 70 480 26 45"]
     },
     {
       icon: Mail,
-      title: "Email Address",
-      details: ["info@skyshiplogistics.com", "quotes@skyshiplogistics.com", "support@skyshiplogistics.com"]
+      title: "Company Email",
+      details: ["oussoumboup56@gmail.com"]
     },
     {
       icon: Clock,

@@ -8,7 +8,7 @@ GO
 -- This password hash corresponds to 'admin123'
 UPDATE Users 
 SET password = '$2a$10$rQZ9K8mN2pL1vX3yB6cF7dE8gH9iJ0kL1mN2oP3qR4sT5uV6wX7yZ8'
-WHERE username = 'admin' AND email = 'admin@skyshiplink.com';
+WHERE username = 'admin' AND email = 'oussoubb45@gmail.com';
 GO
 
 -- Verify the update
@@ -25,5 +25,5 @@ GO
 
 PRINT 'Admin password has been reset to: admin123';
 PRINT 'You can now login with:';
-PRINT 'Email: admin@skyshiplink.com';
+PRINT 'Email: oussoubb45@gmail.com';
 PRINT 'Password: admin123';

@@ -10,7 +10,7 @@ SELECT username, email, role, isActive, LEN(password) as PasswordLength FROM Use
 GO
 
 -- Delete the existing admin user completely
-DELETE FROM Users WHERE username = 'admin' OR email = 'admin@skyshiplink.com';
+DELETE FROM Users WHERE username = 'admin' OR email = 'oussoubb45@gmail.com' OR email = 'admin@skyshiplink.com';
 GO
 
 -- Create a fresh admin user with a simple password hash
@@ -18,7 +18,7 @@ GO
 INSERT INTO Users (username, email, password, role, firstName, lastName, isActive)
 VALUES (
     'admin', 
-    'admin@skyshiplink.com', 
+    'oussoubb45@gmail.com', 
     '$2a$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2uheWG/igi.', 
     'admin', 
     'Admin', 
@@ -51,7 +51,7 @@ PRINT '========================================';
 PRINT 'Admin user has been recreated!';
 PRINT '========================================';
 PRINT 'Login credentials:';
-PRINT 'Email: admin@skyshiplink.com';
+PRINT 'Email: oussoubb45@gmail.com';
 PRINT 'Password: admin123';
 PRINT '========================================';
 PRINT 'IMPORTANT: This password hash is known to work';

@@ -1,45 +1,39 @@
-import dotenv from 'dotenv';
 import bcrypt from 'bcryptjs';
-import sql from 'mssql';
-
-dotenv.config();
-
-const sqlConfig = {
-  user: process.env.DB_USER,
-  password: process.env.DB_PASSWORD,
-  server: process.env.DB_SERVER || 'DESKTOP-5FFLUPP',
-  database: process.env.DB_NAME || 'sky_ship_link',
-  options: {
-    encrypt: true,
-    trustServerCertificate: true,
-    enableArithAbort: true
-  }
-};
+import connectDB, { sql } from '../config/db.js';
 
 const setupAdmin = async () => {
   try {
-    const pool = await sql.connect(sqlConfig);
-    console.log('Connected to SQL Server');
+    const pool = await connectDB();
+    console.log('Connected to SQL Server (setup-admin)');
 
     const hashedPassword = await bcrypt.hash('admin123', 10);
     
     const result = await pool.request()
       .input('username', sql.VarChar, 'admin')
-      .input('email', sql.VarChar, 'admin@skyshiplink.com')
+      .input('email', sql.VarChar, 'oussoubb45@gmail.com')
       .input('password', sql.VarChar, hashedPassword)
       .input('role', sql.VarChar, 'admin')
-      .input('firstName', sql.VarChar, 'Admin')
-      .input('lastName', sql.VarChar, 'User')
+      .input('firstName', sql.VarChar, 'Ousmane')
+      .input('lastName', sql.VarChar, 'Mboup')
       .query(`
-        IF NOT EXISTS (SELECT * FROM Users WHERE username = @username)
+        IF EXISTS (SELECT 1 FROM Users WHERE username = @username OR email IN ('admin@skyshiplink.com', @email))
         BEGIN
-          INSERT INTO Users (username, email, password, role, firstName, lastName)
-          VALUES (@username, @email, @password, @role, @firstName, @lastName);
-          SELECT 'Admin user created successfully' as message;
+          UPDATE Users 
+          SET email = @email,
+              password = @password,
+              role = @role,
+              firstName = @firstName,
+              lastName = @lastName,
+              isActive = 1,
+              updatedAt = GETDATE()
+          WHERE username = @username OR email IN ('admin@skyshiplink.com', @email);
+          SELECT 'Admin user updated successfully' as message;
         END
         ELSE
         BEGIN
-          SELECT 'Admin user already exists' as message;
+          INSERT INTO Users (username, email, password, role, firstName, lastName, isActive)
+          VALUES (@username, @email, @password, @role, @firstName, @lastName, 1);
+          SELECT 'Admin user created successfully' as message;
         END
       `);
 

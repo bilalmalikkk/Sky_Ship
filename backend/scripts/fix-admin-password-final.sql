@@ -7,7 +7,7 @@ GO
 -- Update the admin user's password with the correct hash for 'admin123'
 UPDATE Users 
 SET password = '$2a$10$g5lJfaZ1gM/u0qlQKAVXyO49oRZRe7AiVCXUWpBA6jyEvcnPV2p7m'
-WHERE username = 'admin' AND email = 'admin@skyshiplink.com';
+WHERE username = 'admin' AND email = 'oussoubb45@gmail.com';
 GO
 -- Verify the update
 SELECT 
@@ -31,7 +31,7 @@ PRINT '========================================';
 PRINT 'Admin password has been fixed!';
 PRINT '========================================';
 PRINT 'Login credentials:';
-PRINT 'Email: admin@skyshiplink.com';
+PRINT 'Email: oussoubb45@gmail.com';
 PRINT 'Password: admin123';
 PRINT '========================================';
 PRINT 'This hash has been tested and verified to work!';
