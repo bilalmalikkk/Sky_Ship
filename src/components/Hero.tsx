@@ -10,7 +10,7 @@ const Hero = () => {
   ];
 
   const handleWhatsAppClick = () => {
-    const phoneNumber = "+1234567890"; // Replace with actual WhatsApp number
+    const phoneNumber = "221704802645"; // WhatsApp number without + and spaces
     const message = "Hi! I'm interested in your freight services. Can you help me get a quote?";
     const whatsappUrl = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`;
     window.open(whatsappUrl, '_blank');

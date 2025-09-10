@@ -141,11 +141,11 @@ const Header = () => {
               <div className="py-4 border-t border-gray-200">
                 <h3 className="font-semibold text-gray-900 mb-3">Contact Us</h3>
                 <div className="space-y-2 text-sm">
-                  <a href="tel:+15551234567" className="flex items-center gap-2 text-gray-600 hover:text-blue-600 transition-colors">
+                  <a href="tel:+221704802645" className="flex items-center gap-2 text-gray-600 hover:text-blue-600 transition-colors">
                     <Phone className="w-4 h-4" />
-                    +1 (555) 123-4567
+                    +221 70 480 26 45
                   </a>
-                  <a href="https://wa.me/15551234567" className="flex items-center gap-2 text-gray-600 hover:text-green-600 transition-colors">
+                  <a href="https://wa.me/221704802645" className="flex items-center gap-2 text-gray-600 hover:text-green-600 transition-colors">
                     <MessageCircle className="w-4 h-4" />
                     WhatsApp Chat
                   </a>
